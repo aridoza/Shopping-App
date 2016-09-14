@@ -1,4 +1,4 @@
-import '../assets/stylesheets/base.scss';
+import '../assets/base.scss';
 import React, { Component } from 'react';
 
 const Hello = React.createClass({
