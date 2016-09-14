@@ -25,6 +25,7 @@ const App = React.createClass({
 
     return(
       <div className="app-container" style={pageStyle}>
+        <h1>Hello from React!</h1>
         <ul style={navStyle}>
           <Nav bsStyle="pills">
             <li>Home</li>
@@ -33,7 +34,6 @@ const App = React.createClass({
             <li>Products</li>
           </Nav>
         </ul>
-        {this.props.children}
       </div>
     )
   }
