@@ -1,14 +1,43 @@
 import '../assets/base.scss';
 import React, { Component } from 'react';
+import { Nav } from 'react-bootstrap';
+import { Link } from 'react-router';
 
-const Hello = React.createClass({
+const App = React.createClass({
   render() {
+
+    let navStyle = {
+      backgroundColor: 'white',
+      borderTop: '2px solid #B8860B',
+      color: '#B8860B',
+      textDecoration: 'none',
+      zIndex: '1'
+    }
+
+    let pageStyle = {
+      display: 'flex',
+      position: 'relative',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      height: '100%',
+      width: '100%',
+      background: 'white'
+    }
+
     return(
-      <div>
-        <h1>Hello, {this.props.name}!</h1>
+      <div className="app-container" style={pageStyle}>
+        <ul style={navStyle}>
+          <Nav bsStyle="pills">
+            <li>Home</li>
+            <li>About</li>
+            <li>Contact</li>
+            <li>Products</li>
+          </Nav>
+        </ul>
+        {this.props.children}
       </div>
     )
   }
 });
 
-export default Hello;
+export default App;
