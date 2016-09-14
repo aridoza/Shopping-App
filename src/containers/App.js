@@ -1,4 +1,3 @@
-import '../assets/base.scss';
 import React, { Component } from 'react';
 import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router';
