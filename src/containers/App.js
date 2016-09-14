@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router';
 
 const App = React.createClass({
