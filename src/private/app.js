@@ -13,3 +13,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 //Get home page
+app.get('/', function(req, res){
+  console.log("incoming GET request...");
+  const clothing = apparel.find().toArray(function(err, result){
+    if(err){
+      console.log("Error:", err);
+    } else {
+      res.json("Root page with all products");
+    }
+  })
+})
+
+app.listen(PORT, function(){
+  console.log("listening on port ", PORT);
+})
