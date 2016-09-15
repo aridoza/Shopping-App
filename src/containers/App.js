@@ -10,6 +10,7 @@ const App = React.createClass({
     let navStyle = {
       backgroundColor: 'white',
       borderTop: '2px solid #B8860B',
+      borderBottom: '2px solid #B8806B',
       color: '#B8860B',
       textDecoration: 'none',
       zIndex: '1'
@@ -30,7 +31,7 @@ const App = React.createClass({
         <ul style={navStyle}>
           <Nav bsStyle="pills">
             <li>Home</li>
-            <li>About</li>
+            <li><Link to="/about">About</Link></li>
             <li>Contact</li>
             <li>Products</li>
           </Nav>
