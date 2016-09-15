@@ -30,10 +30,10 @@ const App = React.createClass({
       <div className="app-container" style={pageStyle}>
         <ul style={navStyle}>
           <Nav bsStyle="pills">
-            <li>Home</li>
+            <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
-            <li>Contact</li>
-            <li>Products</li>
+            <li><Link to="/contact">Contact</Link></li>
+            <li><Link to="/pdetail">Products</Link></li>
           </Nav>
         </ul>
         {this.props.children}
