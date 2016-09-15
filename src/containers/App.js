@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router';
 
+import Footer from './components/Footer';
+
 const App = React.createClass({
   render() {
 
@@ -33,6 +35,8 @@ const App = React.createClass({
             <li>Products</li>
           </Nav>
         </ul>
+        {this.props.children}
+        <Footer />
       </div>
     )
   }
