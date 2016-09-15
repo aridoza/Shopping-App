@@ -4,7 +4,7 @@ const router = express.Router();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoClient = mongodb.MongoClient;
-const mongoUrl = 'mongodb://localhost:27017/ProductsAlpha';
+const mongoUrl = 'mongodb://heroku_pcbjw1kg:40n682pbj0aua5d5n5hardjtut@ds033116.mlab.com:33116/heroku_pcbjw1kg';
 const PORT = process.env.PORT || 3000;
 const app = express();
 
