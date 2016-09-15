@@ -1,10 +1,103 @@
 import React, { Component } from 'react';
 import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router';
+import helpers from '../utils/ajaxHelpers';
 
 import Footer from '../components/Footer';
 
 const App = React.createClass({
+
+  getInitialState: function() {
+    return {
+      axiosReturn: [],
+      products: [],
+      childVisible: true
+    };
+  },
+
+  componentWillMount: function() {
+    helpers.getProducts()
+    .then(function(response){
+      this.setState({
+        axiosReturn: response.data,
+        products: response.data
+      });
+    }.bind(this))
+  },
+
+  componentDidMount: function() {
+    helpers.getProducts()
+    .then(function(response){
+      this.setState({
+        axiosReturn: response.data,
+        products: response.data
+      });
+    }.bind(this))
+  },
+
+  getAllProductsCall: function() {
+    console.log("Get all products React component");
+
+    helpers.getProducts()
+    .then(function(response){
+      console.log("response.data frontend", response.data);
+      this.setState({
+        axiosReturn: response.data
+      });
+    }.bind(this))
+    .catch(function(err){
+      console.warn("Error");
+      return err;
+    })
+  },
+
+  isClicked: function() {
+    const clicky = false;
+    if (this.Nav.clicked == true) {
+      return
+    }
+  },
+
+  onClick: function() {
+    this.setState({
+      childVisible: false
+    });
+  },
+
+  homeClick: function() {
+      this.setState({
+        childVisible: true
+      });
+  },
+
+  getAppropriateFormComponent: function() {
+    switch (this.state.axiosReturn) {
+      case 'products-page':
+      console.log('products-page case');
+      return(
+        <ProductDetail homeClick={this.homeClick} products={this.state.axiosReturn} />
+      );
+      break;
+
+      case 'about-page':
+      console.log('about-page case');
+      return(
+        <About />
+      );
+      break;
+
+      default:
+      return <div>
+        {
+          this.state.childVisible
+          ? <Products products={this.state.axiosReturn} />
+          : null
+        }
+      </div>
+    }
+  },
+
+
   render() {
 
     let navStyle = {
@@ -30,13 +123,14 @@ const App = React.createClass({
       <div className="app-container" style={pageStyle}>
         <ul style={navStyle}>
           <Nav bsStyle="pills">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-            <li><Link to="/pdetail">Products</Link></li>
+            <li onClick={this.homeClick} childVisible={true}><Link to="/">Home</Link></li>
+            <li><Link to="/about" onClick={this.onClick}>About</Link></li>
+            <li><Link to="/contact" onClick={this.onClick}>Contact</Link></li>
+            <li><Link to="/pdetail" onClick={this.onClick} products={this.state.axiosReturn}>Products</Link></li>
           </Nav>
         </ul>
         {this.props.children}
+        {this.getAppropriateFormComponent()}
         <Footer />
       </div>
     )
