@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8080
 
 // using webpack-dev-server and middleware in development environment
 if(process.env.NODE_ENV !== 'production') {
