@@ -4,7 +4,7 @@ const router = express.Router();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoClient = mongodb.MongoClient;
-const mongoUrl = 'mongodb://heroku_pcbjw1kg:40n682pbj0aua5d5n5hardjtut@ds033116.mlab.com:33116/popsicles';
+const mongoUrl = 'mongodb://heroku_pcbjw1kg:40n682pbj0aua5d5n5hardjtut@ds033116.mlab.com:33116/heroku_pcbjw1kg';
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -25,7 +25,7 @@ app.get('/', function(req, res){
 })
 
 //get all products
-app.get('/products', function(req, res){
+app.get('/popsicles', function(req, res){
   console.log("GET request to get all products...");
   //connect to mongodb to search for data
   mongoClient.connect(mongoUrl, function(err, db){

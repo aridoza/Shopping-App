@@ -10,17 +10,42 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 //define Mongoose Schema
-Schema = new mongoose.Schema({
-  id       : String,
-  title    : String,
-  completed: Boolean
-}),
+const ProductsSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  color: {
+    type: String,
+    required: true
+  },
+  size: {
+    type: String,
+    required: true
+  },
+  gender: {
+    type: String,
+    required: true
+  },
+  material: {
+    type: String,
+    required: true
+  },
+  imageMain: {
+    type: String,
+    required: true
+  }
+});
 
-Todo = mongoose.model('Todo', Schema);
+products = mongoose.model('Products', ProductsSchema);
 
 
 
-mongoose.connect(process.env.MONGOLAB_URI, function (err){
+mongoose.connect(MONGOLAB_URI, function (err){
   if (err) {
     console.log("mongooseconnect error:",err);
   } else {
@@ -28,8 +53,10 @@ mongoose.connect(process.env.MONGOLAB_URI, function (err){
   }
 });
 
-app.get('/', function (req, res) {
-  res.json(200, {msg: 'OK'});
+app.get('/popsicles', function (req, res) {
+  // res.json(200, {msg: 'OK'});
+  res.json(res.data);
+  console.log(res.data);
 })
 
 app.get('/popsicles', function (req, res){
