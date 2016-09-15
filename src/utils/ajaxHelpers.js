@@ -6,4 +6,4 @@ const helpers = {
   }
 }
 
-export default ajaxHelpers;
+export default helpers;
