@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const app = express();
 const MONGOLAB_URI= 'mongodb://heroku_pcbjw1kg:40n682pbj0aua5d5n5hardjtut@ds033116.mlab.com:33116/heroku_pcbjw1kg';
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8080
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
