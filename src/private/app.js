@@ -24,6 +24,31 @@ app.get('/', function(req, res){
   })
 })
 
+//get all products
+app.get('/products', function(req, res){
+  console.log("GET request to get all products...");
+  //connect to mongodb to search for data
+  mongoClient.connect(mongoUrl, function(err, db){
+    const apparel = db.collection('ProductsAlpha');
+    if(err) {
+      console.error.bind('error regarding db with mongoclient', err);
+    } else {
+      //get all products
+      apparel.find().toArray(function(err, result){
+        if(err){
+          console.log("Error with mongoClient request: ", err);
+        } else if(result.length){
+          res.json(result);
+        } else {
+          console.log("no products found");
+          res.json("No products found of that type");
+        }
+      })
+    }
+  })
+})
+
+
 app.listen(PORT, function(){
   console.log("listening on port ", PORT);
 })
