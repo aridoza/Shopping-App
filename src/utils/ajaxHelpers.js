@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const helpers = {
   getProducts: function(){
-    return axios.get('http://localhost:3000/products');
+    return axios.get('https://localhost:3000/products');
   }
 }
 
