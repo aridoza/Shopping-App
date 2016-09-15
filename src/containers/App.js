@@ -3,6 +3,9 @@ import { Nav } from 'react-bootstrap';
 import { Link } from 'react-router';
 import helpers from '../utils/ajaxHelpers';
 
+import Products from '../components/Products';
+import About from '../components/About';
+import ProductDetail from '../components/ProductDetail';
 import Footer from '../components/Footer';
 
 const App = React.createClass({
