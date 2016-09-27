@@ -1,72 +1,69 @@
-const path = require('path');
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const app = express();
-const MONGOLAB_URI= 'mongodb://heroku_pcbjw1kg:40n682pbj0aua5d5n5hardjtut@ds033116.mlab.com:33116/heroku_pcbjw1kg';
-const PORT = process.env.PORT || 8080
+var path = require('path');
+var express = require('express');
+var mongoose = require('mongoose');
+var bodyParser = require('body-parser');
+var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
+// var PORT = process.env.PORT || 8080;
 
+var PRODUCTS_COLLECTION = "popsicles";
+
+var app = express();
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(__dirname + "/public"));
 
-//define Mongoose Schema
-const ProductsSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  color: {
-    type: String,
-    required: true
-  },
-  size: {
-    type: String,
-    required: true
-  },
-  gender: {
-    type: String,
-    required: true
-  },
-  material: {
-    type: String,
-    required: true
-  },
-  imageMain: {
-    type: String,
-    required: true
-  }
-});
+var db;
 
-products = mongoose.model('Products', ProductsSchema);
-
-
-
-mongoose.connect(MONGOLAB_URI, function (err){
+mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
   if (err) {
-    console.log("mongooseconnect error:",err);
-  } else {
-    console.log("Mongo connected");
+    console.log(err);
+    process.exit(1);
   }
+
+  db = database;
+  console.log("Database connection ready");
+
+  // App initialization
+  var server = app.listen(process.env.PORT || 8080, function () {
+    var port = server.address().port;
+    console.log("App now running on port", port);
+  });
 });
+
+
+// products = mongoose.model('Products', ProductsSchema);
+
+
+
+// mongoose.connect(MONGOLAB_URI, function (err){
+//   if (err) {
+//     console.log("mongooseconnect error:",err);
+//   } else {
+//     console.log("Mongo connected");
+//   }
+// });
 
 app.get('/popsicles', function (req, res) {
   // res.json(200, {msg: 'OK'});
-  res.json(res.data);
-  console.log(res.data);
-})
-
-app.get('/popsicles', function (req, res){
-  popsicles.find( function (err, result){
-    res.json(200, result);
+  db.collection(PRODUCTS_COLLECTION).find({}).toArray(function(err, docs) {
+    if (err) {
+      console.log("Error getting products", err);
+    } else {
+      res.status(200).json(docs);
+      console.log("Products Collection: ", res.json(docs));
+    }
   });
-})
+});
 
-app.use(express.static(__dirname + '/'))
-app.listen(process.env.PORT || 5000);
+// app.get('/popsicles', function (req, res){
+//   popsicles.find( function (err, result){
+//     res.json(200, result);
+//   });
+// })
+//
+// app.use(express.static(__dirname + '/'))
+// app.listen(process.env.PORT || 5000);
 
 
 
