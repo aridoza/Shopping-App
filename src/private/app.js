@@ -6,7 +6,7 @@ var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 // var PORT = process.env.PORT || 8080;
 
-var PRODUCTS_COLLECTION = "popsicles";
+var PRODUCTS_COLLECTION = "products";
 
 var app = express();
 app.use(bodyParser.json());
@@ -44,14 +44,14 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
 //   }
 // });
 
-app.get('/popsicles', function (req, res) {
+app.get('/products', function (req, res) {
   // res.json(200, {msg: 'OK'});
   db.collection(PRODUCTS_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
       console.log("Error getting products", err);
     } else {
       res.status(200).json(docs);
-      console.log("Products Collection: ", res.json(docs));
+      console.log("Products Collection: ", res.json);
     }
   });
 });
@@ -68,18 +68,18 @@ app.get('/popsicles', function (req, res) {
 
 
 // using webpack-dev-server and middleware in development environment
-if(process.env.NODE_ENV !== 'production') {
-  const webpackDevMiddleware = require('webpack-dev-middleware');
-  const webpackHotMiddleware = require('webpack-hot-middleware');
-  const webpack = require('webpack');
-  const config = require('./webpack.config');
-  const compiler = webpack(config);
-
-  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
-  app.use(webpackHotMiddleware(compiler));
-}
-
-app.use(express.static(path.join(__dirname, 'dist')));
+// if(process.env.NODE_ENV !== 'production') {
+//   const webpackDevMiddleware = require('webpack-dev-middleware');
+//   const webpackHotMiddleware = require('webpack-hot-middleware');
+//   const webpack = require('webpack');
+//   const config = require('./webpack.config');
+//   const compiler = webpack(config);
+//
+//   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+//   app.use(webpackHotMiddleware(compiler));
+// }
+//
+// app.use(express.static(path.join(__dirname, 'dist')));
 
 // app.get('/', function(req, res) {
 //   res.sendFile(__dirname + '/dist/index.html')
