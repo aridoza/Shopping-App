@@ -6,7 +6,7 @@ var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 // var PORT = process.env.PORT || 8080;
 
-var PRODUCTS_COLLECTION = "products";
+var PRODUCTS_COLLECTION = "popsicles";
 
 var app = express();
 app.use(bodyParser.json());
@@ -44,7 +44,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
 //   }
 // });
 
-app.get('/products', function (req, res) {
+app.get('/popsicles', function (req, res) {
   // res.json(200, {msg: 'OK'});
   db.collection(PRODUCTS_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
