@@ -1,94 +1,54 @@
-var path = require('path');
-var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
-var mongodb = require("mongodb");
-var ObjectID = mongodb.ObjectID;
-// var PORT = process.env.PORT || 8080;
+const mongodb = require('mongodb');
+const express = require('express');
+const router = express.Router();
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const mongoClient = mongodb.MongoClient;
+const mongoUrl = 'mongodb://heroku_pcbjw1kg:40n682pbj0aua5d5n5hardjtut@ds033116.mlab.com:33116/heroku_pcbjw1kg';
+const PORT = process.env.PORT || 3000;
+const app = express();
 
-var PRODUCTS_COLLECTION = "popsicles";
-
-var app = express();
+app.use(cors());
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({extended: true}));
 
-var db;
-
-mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
-  if (err) {
-    console.log(err);
-    process.exit(1);
-  }
-
-  db = database;
-  console.log("Database connection ready");
-
-  // App initialization
-  var server = app.listen(process.env.PORT || 8080, function () {
-    var port = server.address().port;
-    console.log("App now running on port", port);
-  });
-});
-
-
-// products = mongoose.model('Products', ProductsSchema);
-
-
-
-// mongoose.connect(MONGOLAB_URI, function (err){
-//   if (err) {
-//     console.log("mongooseconnect error:",err);
-//   } else {
-//     console.log("Mongo connected");
-//   }
-// });
-
-app.get('/popsicles', function (req, res) {
-  // res.json(200, {msg: 'OK'});
-  db.collection(PRODUCTS_COLLECTION).find({}).toArray(function(err, docs) {
-    if (err) {
-      console.log("Error getting products", err);
+//Get home page
+app.get('/', function(req, res){
+  console.log("incoming GET request...");
+  const clothing = apparel.find().toArray(function(err, result){
+    if(err){
+      console.log("Error:", err);
     } else {
-      res.status(200).json(docs);
-      console.log("Products Collection: ", res.json);
+      res.json("Root page with all products");
     }
-  });
-});
+  })
+})
 
-// app.get('/popsicles', function (req, res){
-//   popsicles.find( function (err, result){
-//     res.json(200, result);
-//   });
-// })
-//
-// app.use(express.static(__dirname + '/'))
-// app.listen(process.env.PORT || 5000);
+//get all products
+app.get('/popsicles', function(req, res){
+  console.log("GET request to get all products...");
+  //connect to mongodb to search for data
+  mongoClient.connect(mongoUrl, function(err, db){
+    const apparel = db.collection('ProductsAlpha');
+    if(err) {
+      console.error.bind('error regarding db with mongoclient', err);
+    } else {
+      //get all products
+      apparel.find().toArray(function(err, result){
+        if(err){
+          console.log("Error with mongoClient request: ", err);
+        } else if(result.length){
+          res.json(result);
+        } else {
+          console.log("no products found");
+          res.json("No products found of that type");
+        }
+      })
+    }
+  })
+})
 
 
-
-// using webpack-dev-server and middleware in development environment
-// if(process.env.NODE_ENV !== 'production') {
-//   const webpackDevMiddleware = require('webpack-dev-middleware');
-//   const webpackHotMiddleware = require('webpack-hot-middleware');
-//   const webpack = require('webpack');
-//   const config = require('./webpack.config');
-//   const compiler = webpack(config);
-//
-//   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
-//   app.use(webpackHotMiddleware(compiler));
-// }
-//
-// app.use(express.static(path.join(__dirname, 'dist')));
-
-// app.get('/', function(req, res) {
-//   res.sendFile(__dirname + '/dist/index.html')
-// });
-//
-// app.listen(PORT, function(err) {
-//   if (err) {
-//     console.log("Error:", err);
-//   } else {
-//     console.info("Listening on port " + PORT + ".");
-//   }
-// });
+app.listen(PORT, function(){
+  console.log("listening on port ", PORT);
+})
